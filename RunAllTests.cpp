@@ -7,7 +7,7 @@ extern "C" {
     #include "Using.h"
 }
 
-#include "UsingFake.h"
+#include "UsedFake.h"
 
 TEST_GROUP(Used) {
 };
