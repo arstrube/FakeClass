@@ -1,5 +1,5 @@
 #include "UsedFake.h"
-#include "UsedOriginal.h"
+#include "UsedReal.h"
 #include "CppUTestExt/MockSupport.h"
 
 class UsedDummy : public UsedFake {
@@ -40,7 +40,7 @@ void UsedFake::setMock() { fakePtr = UsedMock::instance(); }
 
 void UsedFake::setStub() {}
 
-void UsedFake::setReal() { fakePtr = UsedOriginal::instance(); }
+void UsedFake::setReal() { fakePtr = UsedReal::instance(); }
 
 extern "C" long Used_add(long a, long b) {
     return fakePtr->add(a, b);
