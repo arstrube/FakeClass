@@ -1,7 +1,13 @@
 #include "UsedFake.h"
 #include "CppUTestExt/MockSupport.h"
 
-class UsedDummy : public UsedFake {
+class UsedFakeInterface {
+public:
+    virtual long add(long a, long b) = 0;
+    virtual long subtract(long a, long b) = 0;
+};
+
+class UsedDummy : public UsedFakeInterface {
 public:
     virtual long add(long, long) { return 0; }
     virtual long subtract(long, long) { return 0; }
@@ -15,7 +21,7 @@ namespace C {
     #include "Used.c"
 }
     
-class UsedReal : public UsedFake {
+class UsedReal : public UsedFakeInterface {
 public:
     virtual long add(long a, long b) { return C::Used_add(a, b); }
     virtual long subtract(long a, long b) { return C::Used_subtract(a, b); }
@@ -25,9 +31,9 @@ public:
     }
 };
 
-static UsedFake* fakePtr = UsedDummy::instance();
+static UsedFakeInterface* fake = UsedDummy::instance();
 
-class UsedMock : public UsedFake {
+class UsedMock : public UsedFakeInterface {
 public:
     virtual long add(long a, long b) {
         mock().actualCall("Used_add")
@@ -49,7 +55,7 @@ public:
 
 #include <cstdio>
 
-class UsedStub : public UsedFake {
+class UsedStub : public UsedFakeInterface {
 public:
     virtual long add(long a, long b) {
         printf("Used_add(%ld, %ld) was called\n", a, b);
@@ -65,14 +71,14 @@ public:
     }
 };
 
-void UsedFake::setDummy() { fakePtr = UsedDummy::instance(); }
+void UsedFake::setDummy() { fake = UsedDummy::instance(); }
 
-void UsedFake::setMock() { fakePtr = UsedMock::instance(); }
+void UsedFake::setMock() { fake = UsedMock::instance(); }
 
-void UsedFake::setStub() { fakePtr = UsedStub::instance(); }
+void UsedFake::setStub() { fake = UsedStub::instance(); }
 
-void UsedFake::setReal() { fakePtr = UsedReal::instance(); }
+void UsedFake::setReal() { fake = UsedReal::instance(); }
 
-extern "C" long Used_add(long a, long b) { return fakePtr->add(a, b); }
+extern "C" long Used_add(long a, long b) { return fake->add(a, b); }
 
-extern "C" long Used_subtract(long a, long b) { return fakePtr->subtract(a, b); }
+extern "C" long Used_subtract(long a, long b) { return fake->subtract(a, b); }
