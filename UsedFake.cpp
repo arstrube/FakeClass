@@ -17,13 +17,13 @@ static UsedFake* fakePtr = UsedDummy::instance();
 class UsedMock : public UsedFake {
 public:
     virtual long add(long a, long b) {
-        mock().actualCall("add")
+        mock().actualCall("Used_add")
               .withParameter("a", (int) a)
               .withParameter("b", (int) b);
         return (long) mock().returnValue().getIntValue(); 
     }
     virtual long subtract(long a, long b) {
-        mock().actualCall("add")
+        mock().actualCall("Used_subtract")
               .withParameter("a", (int) a)
               .withParameter("b", (int) b);
         return mock().returnValue().getIntValue(); 
