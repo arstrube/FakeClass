@@ -30,6 +30,15 @@ TEST(User_withUsedRealCode, calculate) {
     LONGS_EQUAL(-141, User_calculate(57, 312));
 }
 
+TEST_GROUP(User_withUsedStubCode) {
+    void setup() {
+        UsedFake::setStub();
+    }
+};
+TEST(User_withUsedStubCode, calculate) {
+    LONGS_EQUAL(-141, User_calculate(57, 312));
+}
+
 TEST_GROUP(User_withUsedMockCode) {
     void setup() {
         UsedFake::setMock();
