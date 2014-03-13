@@ -34,9 +34,25 @@ TEST_GROUP(Using_withUsedMockCode) {
     void setup() {
         UsedFake::setMock();
     }
+    void teardown() {
+        mock().clear();
+    }
 };
 TEST(Using_withUsedMockCode, calculate) {
+    mock().expectOneCall("Used_add")
+          .withParameter("a", 57)
+          .withParameter("b", 57)
+          .andReturnValue(114);
+    mock().expectOneCall("Used_subtract")
+          .withParameter("a", 312)
+          .withParameter("b", 57)
+          .andReturnValue(255);
+    mock().expectOneCall("Used_subtract")
+          .withParameter("a", 114)
+          .withParameter("b", 255)
+          .andReturnValue(-141);
     LONGS_EQUAL(-141, Using_calculate(57, 312));
+    mock().checkExpectations();
 }
 
 int main(int ac, char** av)
