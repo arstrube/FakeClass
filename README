@@ -1,0 +1,25 @@
+RUNTIME-SELECTABLE CPPUTEST FAKE CLASS EXAMPLE
+
+Sometimes it is desirable to test a module itself, then fake it
+out for something else to be tested, all in the same test executable.
+This cannot be done via linker substitution.
+
+The following is a very basic example of how to set up fake classes
+that can be swapped at run-time.
+
+The assumption is that the code to be tested is written in pure C. 
+Our fake classess, on the other hand, work by harnessing the full 
+power of object-oriented design and the C++ language. I have tried
+to keep everything as simple as possible.
+
+Used.c          - A C Module that other code depends on
+User.c          - A C Module that uses the above
+UserFake.cpp    - Classes that allow swapping at run-time between
+                  the real implementation, mocks, stubs, or dummies.
+RunAllTests.cpp - Unit tests that test-drive all of the above and
+                  demonstrate how to use it.
+
+This is just a very basic example; no guarantees for usefulness
+or anything! Use as a template for building your own fake classes.
+
+(c) 2014 Arnd R. Strube
