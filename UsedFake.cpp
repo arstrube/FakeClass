@@ -1,10 +1,5 @@
+#include "UsedFake.h"
 #include "UsedOriginal.h"
-
-class UsedFake {
-public:
-    virtual long add(long a, long b) = 0;
-    virtual long subtract(long a, long b) = 0;
-};
 
 class UsedDummy : public UsedFake {
 public:
@@ -16,7 +11,7 @@ public:
     }
 };
 
-UsedFake* fakePtr = UsedDummy::instance();
+static UsedFake* fakePtr = UsedDummy::instance();
 
 extern "C" long Used_add(long a, long b) {
     return fakePtr->add(a, b);
