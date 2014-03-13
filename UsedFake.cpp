@@ -1,5 +1,6 @@
 #include "UsedFake.h"
 #include "UsedOriginal.h"
+#include "CppUTestExt/MockSupport.h"
 
 class UsedDummy : public UsedFake {
 public:
@@ -13,9 +14,29 @@ public:
 
 static UsedFake* fakePtr = UsedDummy::instance();
 
+class UsedMock : public UsedFake {
+public:
+    virtual long add(long a, long b) {
+        mock().actualCall("add")
+              .withParameter("a", (int) a)
+              .withParameter("b", (int) b);
+        return (long) mock().returnValue().getIntValue(); 
+    }
+    virtual long subtract(long a, long b) {
+        mock().actualCall("add")
+              .withParameter("a", (int) a)
+              .withParameter("b", (int) b);
+        return mock().returnValue().getIntValue(); 
+    }
+    static UsedMock* instance() {
+        static UsedMock instance;
+        return &instance;
+    }
+};
+
 void UsedFake::setDummy() { fakePtr = UsedDummy::instance(); }
 
-void UsedFake::setMock() {}
+void UsedFake::setMock() { fakePtr = UsedMock::instance(); }
 
 void UsedFake::setStub() {}
 

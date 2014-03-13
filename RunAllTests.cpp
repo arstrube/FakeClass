@@ -21,12 +21,21 @@ TEST(Used, subtract) {
     LONGS_EQUAL(1, Used_subtract(-34567, -34568));
 }
 
-TEST_GROUP(Using_withRealCode) {
+TEST_GROUP(Using_withUsedRealCode) {
     void setup() {
         UsedFake::setReal();
     }
 };
-TEST(Using_withRealCode, calculate) {
+TEST(Using_withUsedRealCode, calculate) {
+    LONGS_EQUAL(-141, Using_calculate(57, 312));
+}
+
+TEST_GROUP(Using_withUsedMockCode) {
+    void setup() {
+        UsedFake::setMock();
+    }
+};
+TEST(Using_withUsedMockCode, calculate) {
     LONGS_EQUAL(-141, Using_calculate(57, 312));
 }
 
