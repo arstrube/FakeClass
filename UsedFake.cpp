@@ -1,5 +1,4 @@
 #include "UsedFake.h"
-#include "UsedReal.h"
 #include "CppUTestExt/MockSupport.h"
 
 class UsedDummy : public UsedFake {
@@ -8,6 +7,20 @@ public:
     virtual long subtract(long, long) { return 0; }
     static UsedDummy* instance() {
         static UsedDummy instance;
+        return &instance;
+    }
+};
+
+namespace C {
+    #include "Used.c"
+}
+    
+class UsedReal : public UsedFake {
+public:
+    virtual long add(long a, long b) { return C::Used_add(a, b); }
+    virtual long subtract(long a, long b) { return C::Used_subtract(a, b); }
+    static UsedReal* instance() {
+        static UsedReal instance;
         return &instance;
     }
 };
@@ -34,18 +47,32 @@ public:
     }
 };
 
+#include <cstdio>
+
+class UsedStub : public UsedFake {
+public:
+    virtual long add(long a, long b) {
+        printf("Used_add(%ld, %ld) was called\n", a, b);
+        return a + b;
+    }
+    virtual long subtract(long a, long b) {
+        printf("Used_subtract(%ld, %ld) was called\n", a, b);
+        return a - b;
+    }
+    static UsedStub* instance() {
+        static UsedStub instance;
+        return &instance;
+    }
+};
+
 void UsedFake::setDummy() { fakePtr = UsedDummy::instance(); }
 
 void UsedFake::setMock() { fakePtr = UsedMock::instance(); }
 
-void UsedFake::setStub() {}
+void UsedFake::setStub() { fakePtr = UsedStub::instance(); }
 
 void UsedFake::setReal() { fakePtr = UsedReal::instance(); }
 
-extern "C" long Used_add(long a, long b) {
-    return fakePtr->add(a, b);
-}
+extern "C" long Used_add(long a, long b) { return fakePtr->add(a, b); }
 
-extern "C" long Used_subtract(long a, long b) {
-    return fakePtr->subtract(a, b);
-}
+extern "C" long Used_subtract(long a, long b) { return fakePtr->subtract(a, b); }
