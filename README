@@ -14,8 +14,9 @@ to keep everything as simple as possible.
 
 Used.c          - A C Module that other code depends on
 User.c          - A C Module that uses the above
-UserFake.cpp    - Classes that allow swapping at run-time between
-                  the real implementation, mocks, stubs, or dummies.
+UsedFake.cpp    - Classes that allow swapping at run-time between
+                  the real implementation, mocks, stubs, or dummies
+                  for the Used module.
 RunAllTests.cpp - Unit tests that test-drive all of the above and
                   demonstrate how to use it.
 
