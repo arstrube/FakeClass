@@ -10,6 +10,9 @@ extern "C" {
 #include "UsedFake.h"
 
 TEST_GROUP(Used) {
+    void setup() {
+        UsedFake::setReal();
+    }
 };
 TEST(Used, add) {
     LONGS_EQUAL(5678, Used_add(5555, 123));
@@ -19,6 +22,9 @@ TEST(Used, subtract) {
 }
 
 TEST_GROUP(Using_withRealCode) {
+    void setup() {
+        UsedFake::setReal();
+    }
 };
 TEST(Using_withRealCode, calculate) {
     LONGS_EQUAL(-141, Using_calculate(57, 312));

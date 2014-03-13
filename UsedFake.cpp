@@ -13,6 +13,14 @@ public:
 
 static UsedFake* fakePtr = UsedDummy::instance();
 
+void UsedFake::setDummy() { fakePtr = UsedDummy::instance(); }
+
+void UsedFake::setMock() {}
+
+void UsedFake::setStub() {}
+
+void UsedFake::setReal() { fakePtr = UsedOriginal::instance(); }
+
 extern "C" long Used_add(long a, long b) {
     return fakePtr->add(a, b);
 }
