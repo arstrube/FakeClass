@@ -8,12 +8,12 @@ The following is a very basic example of how to set up fake classes
 that can be swapped at run-time.
 
 The assumption is that the code to be tested is written in pure C. 
-Our fake classess, on the other hand, work by harnessing the full 
+Our fake classes, on the other hand, work by harnessing the full 
 power of object-oriented design and the C++ language. I have tried
 to keep everything as simple as possible.
 
-Used.c          - A C Module that other code depends on
-User.c          - A C Module that uses the above
+Used.c          - C Module that other code depends on
+User.c          - C Module that depends on the above
 UsedFake.cpp    - Class that lets you choose at run-time whether mocks, 
                   stubs, dummies or the real implementation will be
                   called for the Used module.
